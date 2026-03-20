@@ -1,0 +1,360 @@
+/* ===========================
+   RESET (because browsers are annoying)
+   =========================== */
+html, body {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Gill Sans', Calibri, 'Trebuchet MS', sans-serif;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* ===========================
+   BACKGROUND (pastel gradient :3)
+   =========================== */
+html {
+  min-height: 100%;
+  background: linear-gradient(135deg, #a7c7e7, #cba6f7, #f7a6c7);
+  background-attachment: fixed;
+  background-size: cover;
+}
+body {
+  display: flex;
+  flex-direction: column;   
+  justify-content: flex-start; /* top */
+  align-items: center;        
+  min-height: 100vh;          
+  background: transparent; /* wrapper shows gradient */
+}
+
+/* ===========================
+   MAIN LAYOUT (calculator + side panel)
+   =========================== */
+#main-layout {
+  display: flex;
+  flex-direction: row;   
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;    
+  flex-wrap: wrap;       
+}
+
+/* ===========================
+   CALCULATOR WRAPPER (rectangle only around display + buttons)
+   =========================== */
+.wrapper {
+  flex: 0 0 380px;
+  max-width: 400px;
+  width: 100%;
+  height: auto;       
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ===========================
+   LANGUAGE SELECTOR (DO NOT REMOVE IT MAKES IT BETTER THAN OTHERS ALRIGHT?)
+   =========================== */
+.LanguageSelector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;   /* spacing */
+}
+.LangBtn {
+  background: #ffffff33;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 6px 12px;
+  color: #232323;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.LangBtn:hover { background: #cba6f7aa; }
+
+/* ===========================
+   DISPLAY (the screen at the top) (SQUISH IT)
+   =========================== */
+.Layout {
+  backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(35,35,35,0.1);
+  color: #232323;
+  font-size: clamp(1.2rem, 3.5vw, 2rem); /* scales with screen */
+  line-height: 1.2;
+  padding: 0.8rem 1.2rem;
+  text-align: right;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden; /* Hides the ugly scrollbar */
+  text-overflow: ellipsis; 
+}
+
+/* ===========================
+   BUTTON GRID (rows are fake, grid is real)
+   =========================== */
+.Buttons-Cctr {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Common button style */
+.Button-Cctr,
+.ButtonDouble-Cctr,
+.ButtonTriple-Cctr {
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;        
+  height: 50px;
+  color: #2e2e2e;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Normal button */
+.Button-Cctr { background: #ffffff33; }
+.Button-Cctr:hover { background: #ffffff55; }
+
+/* Double-width (Clear) */
+.ButtonDouble-Cctr {
+  grid-column: span 2;
+  background: #ffcccc55;
+}
+.ButtonDouble-Cctr:hover { background: #ffcccc88; }
+
+/* Triple-width (0) */
+.ButtonTriple-Cctr {
+  grid-column: span 3;
+  background: #ffffff33;
+}
+.ButtonTriple-Cctr:hover { background: #ccffcc88; }
+
+/* Operator highlighting */
+.Button-Cctr[data-value="/"],
+.Button-Cctr[data-value="*"],
+.Button-Cctr[data-value="-"],
+.Button-Cctr[data-value="+"] {
+  background: #cba6f7aa;
+  color: #232323;
+}
+.Button-Cctr[data-value="/"]:hover,
+.Button-Cctr[data-value="*"]:hover,
+.Button-Cctr[data-value="-"]:hover,
+.Button-Cctr[data-value="+"]:hover {
+  background: #a7c7e7aa;
+}
+
+/* Equals button (I HATE THE = BUTTON, IT TOOK ME 3 HOURS TO CONNECT IT PROPERLY) */
+#equalsBtn {
+  grid-column: span 2; 
+  background: linear-gradient(135deg, #cba6f7, #f7a6c7);
+  color: #fff;
+  font-weight: bold;
+}
+#equalsBtn:hover {
+  background: linear-gradient(135deg, #a7c7e7, #cba6f7);
+}
+
+/* Variable buttons */
+.Button-Cctr[data-value="x"],
+.Button-Cctr[data-value="y"],
+.Button-Cctr[data-value="z"] { background: #f7a6c7aa; }
+.Button-Cctr[data-value="x"]:hover,
+.Button-Cctr[data-value="y"]:hover,
+.Button-Cctr[data-value="z"]:hover { background: #f78bb7cc; }
+
+/* Trigonometric + pi buttons */
+.Button-Cctr[data-value="sin"],
+.Button-Cctr[data-value="cos"],
+.Button-Cctr[data-value="tan"],
+.Button-Cctr[data-value="pi"] { background: #a7c7e7aa; }
+.Button-Cctr[data-value="sin"]:hover,
+.Button-Cctr[data-value="cos"]:hover,
+.Button-Cctr[data-value="tan"]:hover,
+.Button-Cctr[data-value="pi"]:hover { background: #8bb7e7cc; }
+
+/* Odd buttons (like me) */
+.Button-Cctr[data-value="("],
+.Button-Cctr[data-value=")"],
+.Button-Cctr[data-value="**"],
+.Button-Cctr[data-value="."] {
+  background: #3aa6a6;   /* teal time */
+  color: #fff;
+}
+.Button-Cctr[data-value="("]:hover,
+.Button-Cctr[data-value=")"]:hover,
+.Button-Cctr[data-value="**"]:hover,
+.Button-Cctr[data-value="."]:hover {
+  background: #5ccccc;   /* pastel teal again :o */
+}
+
+/* ===========================
+   FLEX LAYOUT: RANGE TABLE + RESULTS + GRAPH
+   =========================== */
+#calc-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  gap: 40px;                    
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Range, Results, Graph panels */
+#rangeTab, #resultsTab, #graphTab {
+  flex: 1;
+  min-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+#rangeTab h2, #resultsTab h2, #graphTab h2 {
+  margin-bottom: 10px;
+  color: #004d4d; /* teal headings hehehe */
+}
+
+/* Solver tidy */
+#derivativeResult, #integralResult, #rootResult {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #232323;
+  margin: 5px 0;
+}
+
+/* Graph panel */
+#graphTab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#plot-image {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #004d4d; /* teal border (EVERYTHING TEAL) */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.85);
+  display: none; /* hidden til Plot is pressed */
+}
+
+/* ===========================
+   INSTRUCTION BOX
+   =========================== */
+#instructionBox {
+  margin: 10px 0;
+  text-align: center;
+  background: #ffffff22;
+  border-radius: 8px;
+  padding: 10px 20px;
+  max-width: 600px;
+}
+#instructionText {
+  font-size: 1rem;
+  color: #232323;
+  font-weight: 500;
+}
+
+/* ==========================
+   START END STEP VALUES
+   ========================== */
+#rangeValues {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  font-size: 0.875rem;
+}
+#rangeValues p { margin: 0 10px; }
+
+/* Range input fields */
+.RangeInput {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  font-size: 0.875rem;
+}
+.RangeInput label { margin-right: 5px; }
+.RangeInput input { width: 60px; }
+
+/* ===========================
+   SIDE PANEL 
+   =========================== */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;   
+  justify-content: flex-start;
+  max-width: 300px;
+}
+
+/* Variable + Range input styling */
+.VariableInput,
+.RangeInput,
+.ExtraControls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;      
+}
+
+.VariableInput input,
+.RangeInput input {
+  appearance: textfield;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee); /* themed */
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 60px;
+  transition: all 0.2s ease-in-out;
+}
+.VariableInput input:focus,
+.RangeInput input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(106, 17, 203, 0.8);
+}
+
+/* ===========================
+   EXTRA CONTROLS
+   =========================== */
+.ExtraControls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ExtraControls .Button-Cctr {
+  flex: 1;
+  font-size: 0.875rem;
+  height: 40px;
+}
+
+/* God this project is already overdue and here I am wasting my own precious time */
